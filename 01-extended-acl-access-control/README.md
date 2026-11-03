@@ -6,6 +6,8 @@ This lab demonstrates the configuration and use of Cisco Extended Access Control
 
 Using Cisco Packet Tracer, I configured two routers, three switches, two client PCs and a server. I then implemented numbered and named extended ACLs to restrict access to specific network services.
 
+[Download the Packet Tracer Template](lab.pkt)
+
 ## Network Topology
 
 ![Network Topology](topology.png)
@@ -56,5 +58,18 @@ ACL 100 controls traffic entering R1 through interface G0/0/0 from the 192.168.1
 access-list 100 permit tcp 192.168.1.0 0.0.0.255 host 10.1.1.10 eq ftp
 access-list 100 permit icmp 192.168.1.0 0.0.0.255 host 10.1.1.10
 
-interface gigabitEthernet 0/0/0
+int g0/0/0
  ip access-group 100 in
+```
+### 2. Named Extended ACL: HTTP_ONLY
+
+ACL `HTTP_ONLY` controls traffic entering R1 through interface G0/0/1 from the 192.168.2.0/24 network.
+
+```cisco
+ip access-list extended HTTP_ONLY
+ permit tcp 192.168.2.0 0.0.0.255 host 10.1.1.10 eq www
+ permit icmp 192.168.2.0 0.0.0.255 host 10.1.1.10
+
+int g0/0/1
+ ip access-group HTTP_ONLY in
+```
